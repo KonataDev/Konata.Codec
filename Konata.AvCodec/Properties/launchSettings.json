@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "Konata.AvCodec": {
+      "commandName": "Project",
+      "nativeDebugging": true
+    }
+  }
+}

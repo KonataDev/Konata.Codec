@@ -1,0 +1,9 @@
+/.idea
+/.vs
+
+bin/
+obj/
+x64/
+Release/
+Debug/
+
