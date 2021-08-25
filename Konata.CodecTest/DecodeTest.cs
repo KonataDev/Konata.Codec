@@ -9,13 +9,13 @@ namespace Konata.CodecTest
         [SetUp]
         public void Setup()
         {
-            // if (Directory.Exists("audio/"))
-            // {
-            //     Directory.Delete("audio/", true);
-            // }
-            //
-            // Directory.CreateDirectory("audio/");
-            // File.Copy("../../../audio/konata_test.pcm", "audio/konata_test.pcm");
+            if (Directory.Exists("audio/"))
+            {
+                Directory.Delete("audio/", true);
+            }
+
+            Directory.CreateDirectory("audio/");
+            File.Copy("../../../audio/konata_test.pcm", "audio/konata_test.pcm");
         }
 
         [Test]
@@ -43,17 +43,6 @@ namespace Konata.CodecTest
                     Assert.True(SilkCodec.Decode(silkData, 24000, out pcmData).Result);
                 }
                 File.WriteAllBytesAsync("audio/konata_test_codecoddeco.pcm", pcmData);
-            }
-            Assert.Pass();
-        }
-        
-        [Test]
-        public void TestDecode()
-        {
-            var silkData = File.ReadAllBytes("audio/那朵花.slk");
-            {
-                Assert.True(SilkCodec.Decode(silkData, 24000, out var outPcmData).Result);
-                File.WriteAllBytesAsync("audio/konata_test_out.pcm", outPcmData);
             }
             Assert.Pass();
         }
