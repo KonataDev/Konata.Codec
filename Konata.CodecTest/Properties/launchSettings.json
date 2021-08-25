@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "Konata.CodecTest": {
+      "commandName": "Project",
+      "nativeDebugging": true
+    }
+  }
+}

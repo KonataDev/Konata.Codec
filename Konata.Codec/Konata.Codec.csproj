@@ -1,0 +1,74 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.1</TargetFramework>
+    <ApplicationIcon />
+    <OutputType>Library</OutputType>
+    <StartupObject />
+    <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
+    <Authors>Konata Project</Authors>
+    <Company>Konata Project</Company>
+    <Product>Konata Codec</Product>
+    <PackageLicenseExpression></PackageLicenseExpression>
+    <Copyright>Konata Project (C) 2021</Copyright>
+    <PackageLicenseFile>LICENSE</PackageLicenseFile>
+    <PackageProjectUrl></PackageProjectUrl>
+    <RepositoryUrl>https://github.com/KonataDev/Konata.Codec</RepositoryUrl>
+    <Description>Audio &amp; Video codec library for Konata.</Description>
+    <NeutralLanguage>en-US</NeutralLanguage>
+    <Version>1.0.0</Version>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <DocumentationFile>$(OutDir)\Konata.Codec.xml</DocumentationFile>
+  </PropertyGroup>
+
+  <!-- Get Build Stamp -->
+  <Target Name="GetBuildStamp" BeforeTargets="GenerateBuildStamp" Condition="'$(BuildHash)' == ''">
+    <PropertyGroup>
+      <BuildStampFile>$(IntermediateOutputPath)BuildStamp</BuildStampFile>
+    </PropertyGroup>
+
+    <PropertyGroup>
+      <BuildDate>$([System.DateTime]::Now.ToString(r))</BuildDate>
+    </PropertyGroup>
+
+    <!-- Git Branch -->
+    <Exec Command="git -C $(ProjectDir) rev-parse --abbrev-ref HEAD &gt; $(BuildStampFile)" />
+
+    <!-- Git Commit Hash -->
+    <Exec Command="git -C $(ProjectDir) rev-parse HEAD &gt;&gt; $(BuildStampFile)" />
+
+    <!--Build Date -->
+    <Exec Command="echo $(BuildDate) &gt;&gt; $(BuildStampFile)" />
+
+    <ReadLinesFromFile File="$(BuildStampFile)">
+      <Output TaskParameter="Lines" ItemName="Stamp" />
+    </ReadLinesFromFile>
+
+    <PropertyGroup>
+      <BuildStamp>@(Stamp)</BuildStamp>
+    </PropertyGroup>
+  </Target>
+
+  <!-- Generate Build Stamp -->
+  <Target Name="GenerateBuildStamp" BeforeTargets="CoreCompile">
+    <PropertyGroup>
+      <CustomAssemblyInfoFile>$(IntermediateOutputPath)CustomAssemblyInfo.cs</CustomAssemblyInfoFile>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <Compile Include="$(CustomAssemblyInfoFile)" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <AssemblyAttributes Include="AssemblyMetadata">
+        <_Parameter1>BuildStamp</_Parameter1>
+        <_Parameter2>$(BuildStamp)</_Parameter2>
+      </AssemblyAttributes>
+    </ItemGroup>
+
+    <WriteCodeFragment Language="C#" OutputFile="$(CustomAssemblyInfoFile)" AssemblyAttributes="@(AssemblyAttributes)" />
+  </Target>
+
+</Project>
