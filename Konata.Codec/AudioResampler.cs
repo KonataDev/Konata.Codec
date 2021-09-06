@@ -186,9 +186,9 @@ namespace Konata.Codec
             using var outputStream = new MemoryStream();
             using var outputWriter = new BinaryWriter(outputStream);
             {
-                for (var i = 0; i < toChannels; ++i)
-                for (var j = 0; j < toChnData[i].Length; j++)
-                    WriteSampleData(outputWriter, _toConfig.Format, toChnData[i][j]);
+                for (var i = 0; i < toChnSamples; ++i)
+                for (var j = 0; j < toChannels; ++j)
+                    WriteSampleData(outputWriter, _toConfig.Format, toChnData[j][i]);
             }
 
             // Get data
