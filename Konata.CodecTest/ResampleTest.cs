@@ -24,9 +24,8 @@ namespace Konata.CodecTest
                 var sampler = new AudioResampler(pcmData);
                 {
                     // Set configs
-                    sampler.SetAlgorithm(Algorithm.Direct);
                     sampler.SetOrigin(24000, 1, Format.Signed16Bit);
-                    sampler.SetTarget(44100, 2, Format.UnSigned8Bit);
+                    sampler.SetTarget(12000, 1, Format.Signed16Bit);
 
                     // Resample
                     if (sampler.Resample(out var data).Result)
