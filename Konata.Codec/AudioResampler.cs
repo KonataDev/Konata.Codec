@@ -164,10 +164,11 @@ namespace Konata.Codec
                     for (long j = 0; j < toChnSamples; ++j)
                     {
                         // Calculate the sample position
-                        var samplePos = (toChnFactor * j) * fromSampleLen * ((channel + 1) * fromSampleLen);
+                        var samplePos = (toChnFactor * j) * fromSampleLen * fromChannels;
                         {
                             // Align the position
-                            samplePos -= samplePos % (fromSampleLen * fromChannels);
+                            samplePos -= samplePos % fromSampleLen;
+                            samplePos += channel * fromSampleLen;
                             if (samplePos + fromSampleLen > inputStream.Length) continue;
                         }
 
