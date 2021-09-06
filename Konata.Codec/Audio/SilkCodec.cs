@@ -5,7 +5,7 @@ using System.Runtime.InteropServices;
 
 // ReSharper disable AccessToDisposedClosure
 
-namespace Konata.Codec
+namespace Konata.Codec.Audio
 {
     /// <summary>
     /// Silk codec
@@ -14,12 +14,12 @@ namespace Konata.Codec
     {
         private delegate void CodecCallback(IntPtr userData, IntPtr p, int len);
 
-        [DllImport("SilkCodec")]
-        private static extern bool silkDecode(IntPtr silkData, int dataLen,
+        [DllImport("SilkCodec", EntryPoint = "silkDecode")]
+        private static extern bool SilkDecode(IntPtr silkData, int dataLen,
             int sampleRate, CodecCallback cb, IntPtr userData);
 
-        [DllImport("SilkCodec")]
-        private static extern bool silkEncode(IntPtr pcmData, int dataLen,
+        [DllImport("SilkCodec", EntryPoint = "silkEncode")]
+        private static extern bool SilkEncode(IntPtr pcmData, int dataLen,
             int sampleRate, CodecCallback cb, IntPtr userData);
 
         /// <summary>
@@ -44,7 +44,7 @@ namespace Konata.Codec
                 using var binaryWriter = new BinaryWriter(memStream);
 
                 // Decode the silk data
-                var result = silkDecode(lpSilkData, silkData.Length, sampleRate, (_, data, length) =>
+                var result = SilkDecode(lpSilkData, silkData.Length, sampleRate, (_, data, length) =>
                 {
                     // Copy the part
                     var buffer = new byte[length];
@@ -104,7 +104,7 @@ namespace Konata.Codec
                 using var binaryWriter = new BinaryWriter(memStream);
 
                 // Encode the pcm data
-                var result = silkEncode(lpPcmData, pcmData.Length, sampleRate, (_, data, length) =>
+                var result = SilkEncode(lpPcmData, pcmData.Length, sampleRate, (_, data, length) =>
                 {
                     // Copy the part
                     var buffer = new byte[length];
