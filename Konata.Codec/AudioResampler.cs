@@ -1,8 +1,12 @@
-﻿using System.IO;
+﻿using System;
+using System.Collections.Generic;
+using System.IO;
 using System.Threading.Tasks;
 
 // ReSharper disable InvertIf
+// ReSharper disable NotAccessedField.Local
 // ReSharper disable SwitchStatementHandlesSomeKnownEnumValuesWithDefault
+// ReSharper disable ConvertSwitchStatementToSwitchExpression
 
 namespace Konata.Codec
 {
@@ -54,7 +58,7 @@ namespace Konata.Codec
     }
 
     /// <summary>
-    /// Audio resampler
+    /// Simple audio resampler
     /// </summary>
     public class AudioResampler
     {
@@ -135,50 +139,57 @@ namespace Konata.Codec
 
             var toChannels = _toConfig.Channels;
             var toSampleLen = GetSampleLen(_toConfig.Format);
-            var toChnSamples = _toConfig.Rate / _fromConfig.Rate * fromChnSamples;
+            var toChnFactor = (double) _fromConfig.Rate / _toConfig.Rate;
+            var toChnSamples = (long) ((double) _toConfig.Rate / _fromConfig.Rate * fromChnSamples);
+
+            // Prepare channel space
+            var toChnData = new List<double[]>();
+            {
+                for (var i = 0; i < toChannels; ++i)
+                    toChnData.Add(new double[toChnSamples]);
+            }
 
             // Start convert
-            using var outputStream = new MemoryStream();
-            using var outputWriter = new BinaryWriter(outputStream);
             using var inputStream = new MemoryStream(_fromData);
             using var inputReader = new BinaryReader(inputStream);
             {
-                for (var i = 0; i < fromChnSamples; i++)
+                for (var i = 0; i < toChannels; ++i)
                 {
-                    // Seek to a sample group
-                    var sampleGroup = i * fromSampleLen * fromChannels;
-                    inputStream.Seek(sampleGroup, SeekOrigin.Begin);
+                    // Select the channel
+                    var channel = i < fromChannels
+                        ? i
+                        : i % fromChannels;
 
-                    for (var j = 0; j < toChannels; j++)
+                    // Resample the data
+                    for (long j = 0; j < toChnSamples; ++j)
                     {
-                        // Just copy the same
-                        if (j >= fromChannels)
+                        // Calculate the sample position
+                        var samplePos = (toChnFactor * j) * fromSampleLen * ((channel + 1) * fromSampleLen);
                         {
-                            inputStream.Seek(sampleGroup + j % fromChannels
-                                * fromSampleLen, SeekOrigin.Begin);
+                            // Align the position
+                            samplePos -= samplePos % (fromSampleLen * fromChannels);
+                            if (samplePos + fromSampleLen > inputStream.Length) continue;
                         }
 
-                        // Read a sample
-                        var sample = ReadSampleData
-                            (inputReader, _fromConfig.Format);
+                        // Seek to source sample
+                        inputStream.Seek((long) samplePos, SeekOrigin.Begin);
                         {
                             // Convert a sample
-                            WriteSampleData(outputWriter, _toConfig.Format, sample);
+                            var sample = ReadSampleData(inputReader, _fromConfig.Format);
+                            toChnData[i][j] = sample;
                         }
                     }
                 }
             }
 
-            // TODO:
-            // Dynamic sample rate
-
-            // void DirectResampler()
-            // {
-            // }
-            //
-            // void SinResampler()
-            // {
-            // }
+            // Save audio data
+            using var outputStream = new MemoryStream();
+            using var outputWriter = new BinaryWriter(outputStream);
+            {
+                for (var i = 0; i < toChannels; ++i)
+                for (var j = 0; j < toChnData[i].Length; j++)
+                    WriteSampleData(outputWriter, _toConfig.Format, toChnData[i][j]);
+            }
 
             // Get data
             data = outputStream.ToArray();
@@ -207,15 +218,27 @@ namespace Konata.Codec
         /// <param name="format"></param>
         /// <returns></returns>
         private static double ReadSampleData(BinaryReader reader, Format format)
-            => format switch
+        {
+            switch (format)
             {
-                Format.UnSigned8Bit => (double) reader.ReadSByte() / sbyte.MaxValue,
-                Format.Signed16Bit => (double) reader.ReadInt16() / short.MaxValue,
-                Format.Signed32Bit => (double) reader.ReadInt32() / int.MaxValue,
-                Format.Float32Bit => (double) reader.ReadSingle() / float.MaxValue,
-                Format.Float64Bit => reader.ReadDouble(),
-                _ => 0
-            };
+                case Format.UnSigned8Bit:
+                    return (double) reader.ReadSByte() / sbyte.MaxValue;
+
+                case Format.Signed16Bit:
+                    return (double) reader.ReadInt16() / short.MaxValue;
+
+                case Format.Signed32Bit:
+                    return (double) reader.ReadInt32() / int.MaxValue;
+
+                case Format.Float32Bit:
+                    return (double) reader.ReadSingle() / float.MaxValue;
+
+                case Format.Float64Bit:
+                    return reader.ReadDouble();
+            }
+
+            return 0;
+        }
 
         /// <summary>
         /// Write sample data
