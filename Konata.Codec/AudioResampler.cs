@@ -1,7 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
+﻿using System.IO;
 using System.Threading.Tasks;
+using System.Collections.Generic;
 
 // ReSharper disable InvertIf
 // ReSharper disable NotAccessedField.Local
@@ -42,22 +41,6 @@ namespace Konata.Codec
     }
 
     /// <summary>
-    /// Resample algorithm
-    /// </summary>
-    public enum Algorithm
-    {
-        /// <summary>
-        /// Direct interpolation
-        /// </summary>
-        Direct = 0,
-
-        /// <summary>
-        /// Sin interpolation
-        /// </summary>
-        Sin = 1,
-    }
-
-    /// <summary>
     /// Simple audio resampler
     /// </summary>
     public class AudioResampler
@@ -67,7 +50,6 @@ namespace Konata.Codec
         // Conversion configs
         private (int Rate, int Channels, Format Format) _toConfig;
         private (int Rate, int Channels, Format Format) _fromConfig;
-        private Algorithm _algorithm;
 
         /// <summary>
         /// Audio sampler
@@ -78,7 +60,6 @@ namespace Konata.Codec
             _fromData = fromData;
             _toConfig = (44100, 2, Format.Float64Bit);
             _fromConfig = (44100, 2, Format.Signed16Bit);
-            _algorithm = Algorithm.Direct;
         }
 
         /// <summary>
@@ -108,13 +89,6 @@ namespace Konata.Codec
         }
 
         /// <summary>
-        /// Set resample algorithm
-        /// </summary>
-        /// <param name="algorithm"></param>
-        public void SetAlgorithm(Algorithm algorithm)
-            => _algorithm = algorithm;
-
-        /// <summary>
         /// Start the convert
         /// </summary>
         /// <param name="data"></param>
@@ -138,7 +112,6 @@ namespace Konata.Codec
             var fromChnSamples = _fromData.Length / fromSampleLen / fromChannels;
 
             var toChannels = _toConfig.Channels;
-            var toSampleLen = GetSampleLen(_toConfig.Format);
             var toChnFactor = (double) _fromConfig.Rate / _toConfig.Rate;
             var toChnSamples = (long) ((double) _toConfig.Rate / _fromConfig.Rate * fromChnSamples);
 

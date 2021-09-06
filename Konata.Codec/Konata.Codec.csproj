@@ -27,6 +27,15 @@
     <PackageReference Include="MP3Sharp" Version="1.0.5" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Content Include="..\LICENSE">
+      <Link>LICENSE</Link>
+    </Content>
+    <Content Include="..\README.md">
+      <Link>README.md</Link>
+    </Content>
+  </ItemGroup>
+
   <!-- Get Build Stamp -->
   <Target Name="GetBuildStamp" BeforeTargets="GenerateBuildStamp" Condition="'$(BuildHash)' == ''">
     <PropertyGroup>
