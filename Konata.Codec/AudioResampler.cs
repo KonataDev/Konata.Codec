@@ -163,16 +163,16 @@ namespace Konata.Codec
                     // Resample the data
                     for (long j = 0; j < toChnSamples; ++j)
                     {
-                        // Calculate the sample position
-                        var samplePos = (toChnFactor * j) * fromSampleLen * fromChannels;
+                        // Calculate the sample scale
+                        var sampleScale = toChnFactor * j;
                         {
-                            // Align the position
-                            samplePos -= samplePos % fromSampleLen;
-                            samplePos += channel * fromSampleLen;
-                            if (samplePos + fromSampleLen > inputStream.Length) continue;
+                            // Align to the channel
+                            sampleScale -= sampleScale % fromChannels;
+                            sampleScale += channel;
                         }
 
                         // Seek to source sample
+                        var samplePos = sampleScale * fromSampleLen * fromChannels;
                         inputStream.Seek((long) samplePos, SeekOrigin.Begin);
                         {
                             // Convert a sample
