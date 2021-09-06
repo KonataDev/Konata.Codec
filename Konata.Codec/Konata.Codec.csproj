@@ -23,6 +23,10 @@
     <DocumentationFile>$(OutDir)\Konata.Codec.xml</DocumentationFile>
   </PropertyGroup>
 
+  <ItemGroup>
+    <PackageReference Include="MP3Sharp" Version="1.0.5" />
+  </ItemGroup>
+
   <!-- Get Build Stamp -->
   <Target Name="GetBuildStamp" BeforeTargets="GenerateBuildStamp" Condition="'$(BuildHash)' == ''">
     <PropertyGroup>

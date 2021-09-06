@@ -1,6 +1,6 @@
 using System.IO;
 using NUnit.Framework;
-using Konata.Codec;
+using Konata.Codec.Audio;
 
 namespace Konata.CodecTest
 {
@@ -9,17 +9,15 @@ namespace Konata.CodecTest
         [SetUp]
         public void Setup()
         {
-            if (Directory.Exists("audio/"))
-            {
-                Directory.Delete("audio/", true);
-            }
+            if (!Directory.Exists("audio/"))
+                Directory.CreateDirectory("audio/");
 
-            Directory.CreateDirectory("audio/");
-            File.Copy("../../../audio/konata_test.pcm", "audio/konata_test.pcm");
+            File.Copy("../../../audio/konata_test.pcm", 
+                "audio/konata_test.pcm", true);
         }
 
         [Test]
-        public void TestCodec()
+        public void TestSilkCodec()
         {
             var pcmData = File.ReadAllBytes("audio/konata_test.pcm");
             {
@@ -33,7 +31,7 @@ namespace Konata.CodecTest
         }
 
         [Test]
-        public void TestCodeCodeCo()
+        public void TestSilkCodeCodeCo()
         {
             var pcmData = File.ReadAllBytes("audio/konata_test.pcm");
             {
@@ -42,6 +40,7 @@ namespace Konata.CodecTest
                     Assert.True(SilkCodec.Encode(pcmData, 24000, out var silkData).Result);
                     Assert.True(SilkCodec.Decode(silkData, 24000, out pcmData).Result);
                 }
+
                 File.WriteAllBytesAsync("audio/konata_test_codecoddeco.pcm", pcmData);
             }
             Assert.Pass();
