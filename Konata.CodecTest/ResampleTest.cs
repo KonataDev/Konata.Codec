@@ -1,6 +1,7 @@
 ﻿using System.IO;
 using NUnit.Framework;
-using Konata.Codec;
+using Konata.Codec.Audio;
+using Konata.Codec.Audio.Codecs;
 
 namespace Konata.CodecTest
 {
@@ -19,24 +20,26 @@ namespace Konata.CodecTest
         [Test]
         public void TestResample()
         {
-            var pcmData = File.ReadAllBytes("audio/konata_test.pcm");
+            // Create audio pipeline
+            using var pipeline = new AudioPipeline
             {
-                var sampler = new AudioResampler(pcmData);
-                {
-                    // Set configs
-                    sampler.SetOrigin(24000, 1, Format.Signed16Bit);
-                    sampler.SetTarget(12000, 1, Format.Signed16Bit);
+                // Input file stream
+                File.Open("audio/konata_test.pcm",
+                    FileMode.Open, FileAccess.Read),
 
-                    // Resample
-                    if (sampler.Resample(out var data).Result)
-                    {
-                        File.WriteAllBytes("audio/konata_test.pcm.resample", data);
-                        Assert.Pass();
-                    }
+                // Audio resampler
+                new AudioResampler(AudioInfo.SilkV3(), AudioInfo.Default()),
 
-                    // Failed
-                    Assert.Fail();
-                }
+                // Output file stream
+                File.Open("audio/konata_test.resample.pcm",
+                    FileMode.OpenOrCreate, FileAccess.Write)
+            };
+
+            // Start pipeline
+            if (!pipeline.Start().Result) Assert.Fail();
+            {
+                // Pass
+                Assert.Pass();
             }
         }
     }

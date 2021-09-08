@@ -1,11 +1,11 @@
-using System.IO;
+﻿using System.IO;
 using NUnit.Framework;
 using Konata.Codec.Audio;
 using Konata.Codec.Audio.Codecs;
 
 namespace Konata.CodecTest
 {
-    public class SilkTest
+    public class WavTest
     {
         [SetUp]
         public void Setup()
@@ -28,36 +28,10 @@ namespace Konata.CodecTest
                     FileMode.Open, FileAccess.Read),
 
                 // Mp3 decoder stream
-                new SilkV3Codec.Encoder(),
+                new WavCodec.Encoder(AudioInfo.SilkV3()),
 
                 // Output file stream
-                File.Open("audio/konata_test.slk",
-                    FileMode.Create, FileAccess.Write)
-            };
-
-            // Start pipeline
-            if (!pipeline.Start().Result) Assert.Fail();
-            {
-                // Pass
-                Assert.Pass();
-            }
-        }
-        
-        [Test]
-        public void TestSilkDecode()
-        {
-            // Create audio pipeline
-            using var pipeline = new AudioPipeline
-            {
-                // Input file stream
-                File.Open("audio/konata_test.slk",
-                    FileMode.Open, FileAccess.Read),
-
-                // Mp3 decoder stream
-                new SilkV3Codec.Decoder(),
-                
-                // Output file stream
-                File.Open("audio/konata_test.slk.pcm",
+                File.Open("audio/konata_test.wav",
                     FileMode.Create, FileAccess.Write)
             };
 

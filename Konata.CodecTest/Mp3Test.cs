@@ -1,6 +1,7 @@
 ﻿using System.IO;
 using NUnit.Framework;
 using Konata.Codec.Audio;
+using Konata.Codec.Audio.Codecs;
 
 namespace Konata.CodecTest
 {
@@ -19,12 +20,23 @@ namespace Konata.CodecTest
         [Test]
         public void TestMp3Decode()
         {
-            var mp3Data = File.ReadAllBytes("audio/konata_test.mp3");
+            // Create audio pipeline
+            using var pipeline = new AudioPipeline
             {
-                Assert.True(Mp3Codec.Decode(mp3Data, out var pcmData).Result);
-                File.WriteAllBytesAsync("audio/konata_test.mp3.pcm", pcmData);
+                // Mp3 decoder stream
+                new Mp3Codec.Decoder("audio/konata_test.mp3"),
+                
+                // Output file stream
+                File.Open("audio/konata_test.mp3.pcm",
+                    FileMode.Create, FileAccess.Write)
+            };
+
+            // Start pipeline
+            if (!pipeline.Start().Result) Assert.Fail();
+            {
+                // Pass
+                Assert.Pass();
             }
-            Assert.Pass();
         }
     }
 }
