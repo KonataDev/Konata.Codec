@@ -22,24 +22,32 @@ It can help you to sample the pcm data to any supported format.
 It's very easy to use.
 
 ```C#
-var sampler = new AudioResampler(pcmData);
+// Create audio pipeline
+using var pipeline = new AudioPipeline
 {
-    // Set input format
-    // 24000 Hz, 1 Channel(Mono), Signed 16 bit
-    sampler.SetOrigin(24000, 1, Format.Signed16Bit);
-    
-    // Set output format
-    // 44100 Hz, 2 Channel(Stereo), Signed 16 bit
-    sampler.SetTarget(44100, 2, Format.Signed16Bit);
+    // Mp3 stream
+    mp3DecodeStream,
 
-    // Start resample
-    if (sampler.Resample(out var data).Result)
-        File.WriteAllBytes("resample.pcm", data);
-}
+    // Resample mp3 to default
+    new AudioResampler(AudioInfo.Default()),
+    
+    // Adaptive audio pipeline
+    // You don't need to care about the upstream format
+    // Just tell resampler what should it do in next
+    new AudioResampler(new AudioInfo
+        (AudioFormat.Signed16Bit, AudioChannel.Mono, 23333)),
+
+    // Output pcm stream
+    outputStream
+};
+
+// Start pipeline
+pipeline.Start();
 ```
 
 ## Todo
-- [ ] Streaming methods
+- [x] Streaming methods
+- [ ] AudioResampler can cause audio distortion
 
 ## LICENSE
 
