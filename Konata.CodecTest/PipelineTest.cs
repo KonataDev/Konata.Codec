@@ -19,7 +19,7 @@ namespace Konata.CodecTest
                 File.Open("audio/konata_test.mp3.pcm",
                     FileMode.OpenOrCreate, FileAccess.Write)
             };
-            
+
             // Start pipeline
             if (!pipeline.Start().Result) Assert.Fail();
             {

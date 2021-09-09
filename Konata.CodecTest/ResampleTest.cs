@@ -1,7 +1,7 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 using NUnit.Framework;
 using Konata.Codec.Audio;
-using Konata.Codec.Audio.Codecs;
 
 namespace Konata.CodecTest
 {
@@ -38,6 +38,9 @@ namespace Konata.CodecTest
             // Start pipeline
             if (!pipeline.Start().Result) Assert.Fail();
             {
+                // Print time
+                Console.WriteLine($"Time: {pipeline.GetAudioTime()}");
+
                 // Pass
                 Assert.Pass();
             }
