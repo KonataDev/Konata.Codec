@@ -30,6 +30,7 @@ namespace Konata.Codec.Audio
         private bool _firstRead;
         private bool _adaptiveEnabled;
         private long _totalLen;
+        private double _totalTime;
 
         /// <summary>
         /// Audio sampler
@@ -92,8 +93,15 @@ namespace Konata.Codec.Audio
         /// Get adaptive output
         /// </summary>
         /// <returns></returns>
-        internal override AudioInfo GetAdaptiveOutput()
+        internal override AudioInfo? GetAdaptiveOutput()
             => _toConfig;
+
+        /// <summary>
+        /// Get total time
+        /// </summary>
+        /// <returns></returns>
+        internal override double GetOutputTime()
+            => _totalTime;
 
         /// <inheritdoc />
         public override void Write(byte[] buffer, int offset, int count)
@@ -104,6 +112,8 @@ namespace Konata.Codec.Audio
                 && _fromConfig.Channels == _toConfig.Channels)
             {
                 _totalLen += count;
+                _totalTime = (double) _totalLen / _toChannels / _toConfig.SampleRate;
+
                 base.Write(buffer, offset, count);
                 return;
             }
@@ -139,6 +149,8 @@ namespace Konata.Codec.Audio
                     var result = Sample.ConvertFormat(sample, _fromConfig.Format, _toConfig.Format);
                     {
                         _totalLen += result.Length;
+                        _totalTime = (double) _totalLen / _toChannels / _toConfig.SampleRate;
+
                         base.Write(result, 0, result.Length);
                     }
                 }

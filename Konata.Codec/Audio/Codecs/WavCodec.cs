@@ -1,6 +1,5 @@
 ﻿using System.IO;
 using System.Text;
-using System.Threading.Tasks;
 using Konata.Codec.Utils;
 
 namespace Konata.Codec.Audio.Codecs
@@ -36,12 +35,6 @@ namespace Konata.Codec.Audio.Codecs
             {
                 _output = input;
             }
-
-            /// <summary>
-            /// Get adaptive output
-            /// </summary>
-            internal override AudioInfo GetAdaptiveOutput()
-                => default;
 
             /// <summary>
             /// Set adaptive output

@@ -20,6 +20,14 @@ namespace Konata.Codec.Audio
         /// Get adaptive output
         /// </summary>
         /// <returns></returns>
-        internal abstract AudioInfo GetAdaptiveOutput();
+        internal virtual AudioInfo? GetAdaptiveOutput()
+            => null;
+
+        /// <summary>
+        /// Get output audio time
+        /// </summary>
+        /// <returns></returns>
+        internal virtual double GetOutputTime()
+            => 0;
     }
 }

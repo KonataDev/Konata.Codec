@@ -1,6 +1,5 @@
 ﻿using System;
 using System.IO;
-using System.Collections;
 using System.Threading.Tasks;
 using System.Collections.Generic;
 
@@ -10,17 +9,10 @@ namespace Konata.Codec.Audio
     /// Audio pipeline
     /// </summary>
     public class AudioPipeline
-        : IDisposable, IEnumerable
+        : List<Stream>, IDisposable
     {
-        private readonly List<Stream> _streams;
-
-        /// <summary>
-        /// AudioPipeline
-        /// </summary>
-        public AudioPipeline()
-        {
-            _streams = new();
-        }
+        private double _audioTime;
+        private AudioInfo? _audioFormat;
 
         /// <summary>
         /// Start pipeline
@@ -31,17 +23,22 @@ namespace Konata.Codec.Audio
             return await Task.Run(() =>
             {
                 // Process each stream
-                for (var i = 0; i < _streams.Count - 1; ++i)
+                for (var i = 0; i < Count - 1; ++i)
                 {
                     // Adaptive audio format
-                    if (_streams[i] is AudioStream x
-                        && _streams[i + 1] is AudioStream y)
-                    {
-                        y.SetAdaptiveInput(x.GetAdaptiveOutput());
-                    }
+                    if (this[i] is AudioStream x)
+                        _audioFormat = x.GetAdaptiveOutput() ?? _audioFormat;
+
+                    // Set audio format
+                    if (this[i + 1] is AudioStream y && _audioFormat != null)
+                        y.SetAdaptiveInput(_audioFormat.Value);
 
                     // Pass data to next stream
-                    _streams[i].CopyTo(_streams[i + 1]);
+                    this[i].CopyTo(this[i + 1]);
+
+                    // Get audio time
+                    if (this[i] is AudioResampler z)
+                        _audioTime = z.GetOutputTime();
                 }
 
                 return true;
@@ -49,21 +46,24 @@ namespace Konata.Codec.Audio
         }
 
         /// <summary>
-        /// Add stream
+        /// Get audio format
         /// </summary>
-        /// <param name="stream"></param>
-        public void Add(Stream stream)
-            => _streams.Add(stream);
+        /// <returns></returns>
+        public AudioInfo? GetAudioFormat()
+            => _audioFormat;
 
-        /// <inheritdoc />
-        public IEnumerator GetEnumerator()
-            => _streams.GetEnumerator();
+        /// <summary>
+        /// Get audio time
+        /// </summary>
+        /// <returns></returns>
+        public double GetAudioTime()
+            => _audioTime;
 
         /// <inheritdoc />
         public void Dispose()
         {
             // Dispose all streams
-            foreach (var i in _streams) i.Dispose();
+            foreach (var i in this) i.Dispose();
         }
     }
 }

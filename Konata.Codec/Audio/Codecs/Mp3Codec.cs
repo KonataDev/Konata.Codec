@@ -39,7 +39,7 @@ namespace Konata.Codec.Audio.Codecs
             /// <summary>
             /// Get adaptive output
             /// </summary>
-            internal override AudioInfo GetAdaptiveOutput()
+            internal override AudioInfo? GetAdaptiveOutput()
                 => _output;
 
             /// <inheritdoc />

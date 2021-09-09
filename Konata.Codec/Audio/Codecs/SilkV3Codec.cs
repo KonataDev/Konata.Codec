@@ -39,12 +39,6 @@ namespace Konata.Codec.Audio.Codecs
                 _firstRead = true;
             }
 
-            /// <summary>
-            /// Get adaptive output
-            /// </summary>
-            internal override AudioInfo GetAdaptiveOutput()
-                => default;
-
             /// <inheritdoc />
             public override int Read(byte[] buffer, int offset, int count)
             {
@@ -124,7 +118,7 @@ namespace Konata.Codec.Audio.Codecs
             /// <summary>
             /// Get adaptive output
             /// </summary>
-            internal override AudioInfo GetAdaptiveOutput()
+            internal override AudioInfo? GetAdaptiveOutput()
                 => AudioInfo.SilkV3();
 
             /// <inheritdoc />
