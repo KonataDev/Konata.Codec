@@ -86,7 +86,7 @@ namespace Konata.Codec.Audio.Codecs
                     // Catch native exceptions
                     catch
                     {
-                        throw new EncodeException("Thrown an exception whil encoding silk.");
+                        throw new EncodeException("Thrown an exception while encoding silk.");
                     }
 
                     // Cleanup
@@ -168,7 +168,7 @@ namespace Konata.Codec.Audio.Codecs
                     // Catch native exceptions
                     catch
                     {
-                        throw new EncodeException("Thrown an exception whil encoding silk.");
+                        throw new EncodeException("Thrown an exception while decoding silk.");
                     }
 
                     // Cleanup
