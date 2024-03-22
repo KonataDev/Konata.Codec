@@ -18,21 +18,14 @@ public class WavTest
     }
 
     [Test]
-    public void TestSilkEncode()
+    public void TestWavEncode()
     {
         // Create audio pipeline
         using var pipeline = new AudioPipeline
         {
-            // Input file stream
-            File.Open("audio/konata_test.pcm",
-                FileMode.Open, FileAccess.Read),
-
-            // Mp3 decoder stream
+            File.Open("audio/konata_test.pcm", FileMode.Open, FileAccess.Read),
             new WavCodec.Encoder(AudioInfo.SilkV3()),
-
-            // Output file stream
-            File.Open("audio/konata_test.wav",
-                FileMode.Create, FileAccess.Write)
+            File.Open("audio/konata_test.wav", FileMode.Create, FileAccess.Write)
         };
 
         // Start pipeline
@@ -41,5 +34,19 @@ public class WavTest
             // Pass
             Assert.Pass();
         }
+    }
+
+    [Test]
+    public void TestWavDecode()
+    {
+        using var pipeline = new AudioPipeline
+        {
+            new WavCodec.Decoder("audio/konata_test.wav"),
+            new AudioResampler(new AudioInfo(AudioFormat.Signed16Bit, AudioChannel.Mono, 44100)),
+            File.Open("audio/konata_test.pcm", FileMode.Create, FileAccess.Write)
+        };
+
+        if (!pipeline.Start().Result) Assert.Fail();
+        Assert.Pass();
     }
 }
