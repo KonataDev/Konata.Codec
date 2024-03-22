@@ -2,15 +2,13 @@
 
     <PropertyGroup>
         <TargetFramework>netstandard2.1</TargetFramework>
-        <ApplicationIcon/>
         <OutputType>Library</OutputType>
-        <StartupObject/>
         <LangVersion>latest</LangVersion>
         <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
         <Authors>Konata Project</Authors>
         <Company>Konata Project</Company>
         <Product>Konata Codec</Product>
-        <Copyright>Konata Project (C) 2022</Copyright>
+        <Copyright>Konata Project (C) 2024</Copyright>
         <RepositoryUrl>https://github.com/KonataDev/Konata.Codec</RepositoryUrl>
         <Description>Audio &amp; Video codec library for Konata.</Description>
         <PackageVersion>1.3.1</PackageVersion>
@@ -20,7 +18,7 @@
     </PropertyGroup>
 
     <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-        <DocumentationFile>$(OutDir)\Konata.Codec.xml</DocumentationFile>
+        <DocumentationFile>.\$(OutDir)\Konata.Codec.xml</DocumentationFile>
     </PropertyGroup>
 
     <ItemGroup>

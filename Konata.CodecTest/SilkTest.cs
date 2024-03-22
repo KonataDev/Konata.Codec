@@ -24,14 +24,17 @@ namespace Konata.CodecTest
             using var pipeline = new AudioPipeline
             {
                 // Input file stream
-                File.Open("audio/konata_test.pcm",
+                File.Open("audio/untitled.pcm",
                     FileMode.Open, FileAccess.Read),
 
+                new AudioResampler(new AudioInfo(AudioFormat.Signed16Bit, AudioChannel.Mono, 44100), 
+                    new AudioInfo(AudioFormat.Signed16Bit, AudioChannel.Mono, 24000)),
+                
                 // Mp3 decoder stream
                 new SilkV3Codec.Encoder(),
 
                 // Output file stream
-                File.Open("audio/konata_test.slk",
+                File.Open("audio/untitled.slk",
                     FileMode.Create, FileAccess.Write)
             };
 
@@ -56,6 +59,7 @@ namespace Konata.CodecTest
                 // Mp3 decoder stream
                 new SilkV3Codec.Decoder(),
                 
+                new WavCodec.Encoder(),
                 // Output file stream
                 File.Open("audio/konata_test.slk.pcm",
                     FileMode.Create, FileAccess.Write)

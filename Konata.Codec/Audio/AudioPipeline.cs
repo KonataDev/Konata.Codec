@@ -3,67 +3,66 @@ using System.IO;
 using System.Threading.Tasks;
 using System.Collections.Generic;
 
-namespace Konata.Codec.Audio
+namespace Konata.Codec.Audio;
+
+/// <summary>
+/// Audio pipeline
+/// </summary>
+public class AudioPipeline
+    : List<Stream>, IDisposable
 {
+    private double _audioTime;
+    private AudioInfo? _audioFormat;
+
     /// <summary>
-    /// Audio pipeline
+    /// Start pipeline
     /// </summary>
-    public class AudioPipeline
-        : List<Stream>, IDisposable
+    /// <returns></returns>
+    public async Task<bool> Start()
     {
-        private double _audioTime;
-        private AudioInfo? _audioFormat;
-
-        /// <summary>
-        /// Start pipeline
-        /// </summary>
-        /// <returns></returns>
-        public async Task<bool> Start()
+        return await Task.Run(() =>
         {
-            return await Task.Run(() =>
+            // Process each stream
+            for (var i = 0; i < Count - 1; ++i)
             {
-                // Process each stream
-                for (var i = 0; i < Count - 1; ++i)
-                {
-                    // Adaptive audio format
-                    if (this[i] is AudioStream x)
-                        _audioFormat = x.GetAdaptiveOutput() ?? _audioFormat;
+                // Adaptive audio format
+                if (this[i] is AudioStream x)
+                    _audioFormat = x.GetAdaptiveOutput() ?? _audioFormat;
 
-                    // Set audio format
-                    if (this[i + 1] is AudioStream y && _audioFormat != null)
-                        y.SetAdaptiveInput(_audioFormat.Value);
+                // Set audio format
+                if (this[i + 1] is AudioStream y && _audioFormat != null)
+                    y.SetAdaptiveInput(_audioFormat.Value);
 
-                    // Pass data to next stream
-                    this[i].CopyTo(this[i + 1]);
+                // Pass data to next stream
+                this[i].CopyTo(this[i + 1]);
 
-                    // Get audio time
-                    if (this[i] is AudioResampler z)
-                        _audioTime = z.GetOutputTime();
-                }
+                // Get audio time
+                if (this[i] is AudioResampler z)
+                    _audioTime = z.GetOutputTime();
+            }
 
-                return true;
-            });
-        }
+            return true;
+        });
+    }
 
-        /// <summary>
-        /// Get audio format
-        /// </summary>
-        /// <returns></returns>
-        public AudioInfo? GetAudioFormat()
-            => _audioFormat;
+    /// <summary>
+    /// Get audio format
+    /// </summary>
+    /// <returns></returns>
+    public AudioInfo? GetAudioFormat()
+        => _audioFormat;
 
-        /// <summary>
-        /// Get audio time
-        /// </summary>
-        /// <returns></returns>
-        public double GetAudioTime()
-            => _audioTime;
+    /// <summary>
+    /// Get audio time
+    /// </summary>
+    /// <returns></returns>
+    public double GetAudioTime()
+        => _audioTime;
 
-        /// <inheritdoc />
-        public void Dispose()
-        {
-            // Dispose all streams
-            foreach (var i in this) i.Dispose();
-        }
+    /// <inheritdoc />
+    public void Dispose()
+    {
+        // Dispose all streams
+        foreach (var i in this) i.Dispose();
     }
 }

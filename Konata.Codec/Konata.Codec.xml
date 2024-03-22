@@ -1,0 +1,361 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Konata.Codec</name>
+    </assembly>
+    <members>
+        <member name="T:Konata.Codec.Audio.AudioFormat">
+            <summary>
+            Audio bit format
+            </summary>
+        </member>
+        <member name="F:Konata.Codec.Audio.AudioFormat.Signed16Bit">
+            <summary>
+            Signed 16 bit
+            </summary>
+        </member>
+        <member name="F:Konata.Codec.Audio.AudioFormat.Signed32Bit">
+            <summary>
+            Signed 32 bit
+            </summary>
+        </member>
+        <member name="F:Konata.Codec.Audio.AudioFormat.UnSigned8Bit">
+            <summary>
+            Unsigned 8 bit
+            </summary>
+        </member>
+        <member name="F:Konata.Codec.Audio.AudioFormat.Float32Bit">
+            <summary>
+            Float 32 bit
+            </summary>
+        </member>
+        <member name="F:Konata.Codec.Audio.AudioFormat.Float64Bit">
+            <summary>
+            Float 64 bit
+            </summary>
+        </member>
+        <member name="T:Konata.Codec.Audio.AudioChannel">
+            <summary>
+            Audio channel
+            </summary>
+        </member>
+        <member name="F:Konata.Codec.Audio.AudioChannel.Mono">
+            <summary>
+            Mono
+            </summary>
+        </member>
+        <member name="F:Konata.Codec.Audio.AudioChannel.Stereo">
+            <summary>
+            Stereo
+            </summary>
+        </member>
+        <member name="T:Konata.Codec.Audio.AudioInfo">
+            <summary>
+            Audio info
+            </summary>
+        </member>
+        <member name="P:Konata.Codec.Audio.AudioInfo.Format">
+            <summary>
+            Audio format
+            </summary>
+        </member>
+        <member name="P:Konata.Codec.Audio.AudioInfo.Channels">
+            <summary>
+            Audio channel number
+            </summary>
+        </member>
+        <member name="P:Konata.Codec.Audio.AudioInfo.SampleRate">
+            <summary>
+            Audio sample rate
+            </summary>
+        </member>
+        <member name="M:Konata.Codec.Audio.AudioInfo.#ctor(Konata.Codec.Audio.AudioFormat,Konata.Codec.Audio.AudioChannel,System.Int32)">
+            <summary>
+            Audio info
+            </summary>
+            <param name="format"></param>
+            <param name="channels"></param>
+            <param name="sampleRate"></param>
+        </member>
+        <member name="M:Konata.Codec.Audio.AudioInfo.Default">
+            <summary>
+            Default audio presets
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Konata.Codec.Audio.AudioInfo.Mp3">
+            <summary>
+            Default mp3 presets
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Konata.Codec.Audio.AudioInfo.SilkV3">
+            <summary>
+            Default silk presets
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="T:Konata.Codec.Audio.AudioPipeline">
+            <summary>
+            Audio pipeline
+            </summary>
+        </member>
+        <member name="M:Konata.Codec.Audio.AudioPipeline.Start">
+            <summary>
+            Start pipeline
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Konata.Codec.Audio.AudioPipeline.GetAudioFormat">
+            <summary>
+            Get audio format
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Konata.Codec.Audio.AudioPipeline.GetAudioTime">
+            <summary>
+            Get audio time
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Konata.Codec.Audio.AudioPipeline.Dispose">
+            <inheritdoc />
+        </member>
+        <member name="T:Konata.Codec.Audio.AudioResampler">
+            <summary>
+            Simple audio resampler
+            </summary>
+        </member>
+        <member name="M:Konata.Codec.Audio.AudioResampler.#ctor(Konata.Codec.Audio.AudioInfo,Konata.Codec.Audio.AudioInfo)">
+            <summary>
+            Audio sampler
+            </summary>
+            <param name="input"></param>
+            <param name="output"></param>
+        </member>
+        <member name="M:Konata.Codec.Audio.AudioResampler.#ctor(Konata.Codec.Audio.AudioInfo)">
+            <summary>
+            Audio sampler
+            </summary>
+            <param name="output"></param>
+        </member>
+        <member name="M:Konata.Codec.Audio.AudioResampler.SetAdaptiveInput(Konata.Codec.Audio.AudioInfo)">
+            <summary>
+            Set adaptive input
+            </summary>
+            <param name="info"></param>
+        </member>
+        <member name="M:Konata.Codec.Audio.AudioResampler.GetAdaptiveOutput">
+            <summary>
+            Get adaptive output
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Konata.Codec.Audio.AudioResampler.GetOutputTime">
+            <summary>
+            Get total time
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Konata.Codec.Audio.AudioResampler.Write(System.Byte[],System.Int32,System.Int32)">
+            <inheritdoc />
+        </member>
+        <member name="M:Konata.Codec.Audio.AudioResampler.Read(System.Byte[],System.Int32,System.Int32)">
+            <inheritdoc />
+        </member>
+        <member name="T:Konata.Codec.Audio.AudioStream">
+            <summary>
+            Audio stream
+            </summary>
+        </member>
+        <member name="M:Konata.Codec.Audio.AudioStream.SetAdaptiveInput(Konata.Codec.Audio.AudioInfo)">
+            <summary>
+            Set adaptive input
+            </summary>
+            <param name="info"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Konata.Codec.Audio.AudioStream.GetAdaptiveOutput">
+            <summary>
+            Get adaptive output
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Konata.Codec.Audio.AudioStream.GetOutputTime">
+            <summary>
+            Get output audio time
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="T:Konata.Codec.Audio.Codecs.Mp3Codec">
+            <summary>
+            Mp3 codec
+            </summary>
+        </member>
+        <member name="T:Konata.Codec.Audio.Codecs.Mp3Codec.Decoder">
+            <summary>
+            Decoder
+            </summary>
+        </member>
+        <member name="M:Konata.Codec.Audio.Codecs.Mp3Codec.Decoder.#ctor(System.String)">
+            <summary>
+            Mp3Codec decoder
+            </summary>
+        </member>
+        <member name="M:Konata.Codec.Audio.Codecs.Mp3Codec.Decoder.#ctor(System.IO.Stream)">
+            <summary>
+            Mp3Codec decoder
+            </summary>
+        </member>
+        <member name="M:Konata.Codec.Audio.Codecs.Mp3Codec.Decoder.GetAdaptiveOutput">
+            <summary>
+            Get adaptive output
+            </summary>
+        </member>
+        <member name="M:Konata.Codec.Audio.Codecs.Mp3Codec.Decoder.Flush">
+            <inheritdoc />
+        </member>
+        <member name="M:Konata.Codec.Audio.Codecs.Mp3Codec.Decoder.Read(System.Byte[],System.Int32,System.Int32)">
+            <inheritdoc />
+        </member>
+        <member name="M:Konata.Codec.Audio.Codecs.Mp3Codec.Decoder.Seek(System.Int64,System.IO.SeekOrigin)">
+            <inheritdoc />
+        </member>
+        <member name="M:Konata.Codec.Audio.Codecs.Mp3Codec.Decoder.SetLength(System.Int64)">
+            <inheritdoc />
+        </member>
+        <member name="M:Konata.Codec.Audio.Codecs.Mp3Codec.Decoder.Write(System.Byte[],System.Int32,System.Int32)">
+            <inheritdoc />
+        </member>
+        <member name="P:Konata.Codec.Audio.Codecs.Mp3Codec.Decoder.CanRead">
+            <inheritdoc />
+        </member>
+        <member name="P:Konata.Codec.Audio.Codecs.Mp3Codec.Decoder.CanSeek">
+            <inheritdoc />
+        </member>
+        <member name="P:Konata.Codec.Audio.Codecs.Mp3Codec.Decoder.CanWrite">
+            <inheritdoc />
+        </member>
+        <member name="P:Konata.Codec.Audio.Codecs.Mp3Codec.Decoder.Length">
+            <inheritdoc />
+        </member>
+        <member name="P:Konata.Codec.Audio.Codecs.Mp3Codec.Decoder.Position">
+            <inheritdoc />
+        </member>
+        <member name="T:Konata.Codec.Audio.Codecs.SilkV3Codec">
+            <summary>
+            Silk codec
+            </summary>
+        </member>
+        <member name="T:Konata.Codec.Audio.Codecs.SilkV3Codec.Encoder">
+            <summary>
+            SilkCodec encoder
+            </summary>
+        </member>
+        <member name="M:Konata.Codec.Audio.Codecs.SilkV3Codec.Encoder.#ctor">
+            <summary>
+            SilkCodec encoder
+            </summary>
+        </member>
+        <member name="M:Konata.Codec.Audio.Codecs.SilkV3Codec.Encoder.Read(System.Byte[],System.Int32,System.Int32)">
+            <inheritdoc />
+        </member>
+        <member name="T:Konata.Codec.Audio.Codecs.SilkV3Codec.Decoder">
+            <summary>
+            SilkCodec encoder
+            </summary>
+        </member>
+        <member name="M:Konata.Codec.Audio.Codecs.SilkV3Codec.Decoder.#ctor">
+            <summary>
+            SilkCodec encoder
+            </summary>
+        </member>
+        <member name="M:Konata.Codec.Audio.Codecs.SilkV3Codec.Decoder.GetAdaptiveOutput">
+            <summary>
+            Get adaptive output
+            </summary>
+        </member>
+        <member name="M:Konata.Codec.Audio.Codecs.SilkV3Codec.Decoder.Read(System.Byte[],System.Int32,System.Int32)">
+            <inheritdoc />
+        </member>
+        <member name="T:Konata.Codec.Audio.Codecs.WavCodec">
+            <summary>
+            Wav codec
+            </summary>
+        </member>
+        <member name="T:Konata.Codec.Audio.Codecs.WavCodec.Encoder">
+            <summary>
+            Wav encoder
+            </summary>
+        </member>
+        <member name="M:Konata.Codec.Audio.Codecs.WavCodec.Encoder.#ctor">
+            <summary>
+            Wav encoder
+            </summary>
+        </member>
+        <member name="M:Konata.Codec.Audio.Codecs.WavCodec.Encoder.#ctor(Konata.Codec.Audio.AudioInfo)">
+            <summary>
+            Wav encoder
+            </summary>
+        </member>
+        <member name="M:Konata.Codec.Audio.Codecs.WavCodec.Encoder.SetAdaptiveInput(Konata.Codec.Audio.AudioInfo)">
+            <summary>
+            Set adaptive output
+            </summary>
+        </member>
+        <member name="M:Konata.Codec.Audio.Codecs.WavCodec.Encoder.Write(System.Byte[],System.Int32,System.Int32)">
+            <inheritdoc />
+        </member>
+        <member name="M:Konata.Codec.Audio.Codecs.WavCodec.Encoder.Read(System.Byte[],System.Int32,System.Int32)">
+            <inheritdoc />
+        </member>
+        <member name="T:Konata.Codec.Exceptions.DecodeException">
+            <summary>
+            Decode exception
+            </summary>
+        </member>
+        <member name="M:Konata.Codec.Exceptions.DecodeException.#ctor(System.String)">
+            <summary>
+            Decode exception
+            </summary>
+            <param name="message"></param>
+        </member>
+        <member name="M:Konata.Codec.Exceptions.DecodeException.#ctor(System.Exception)">
+            <summary>
+            Decode exception
+            </summary>
+            <param name="e"></param>
+        </member>
+        <member name="T:Konata.Codec.Exceptions.EncodeException">
+            <summary>
+            Encode exception
+            </summary>
+        </member>
+        <member name="M:Konata.Codec.Exceptions.EncodeException.#ctor(System.String)">
+            <summary>
+            Encode exception
+            </summary>
+            <param name="message"></param>
+        </member>
+        <member name="T:Konata.Codec.Utils.Sample">
+            <summary>
+            Sample util
+            </summary>
+        </member>
+        <member name="M:Konata.Codec.Utils.Sample.GetSampleLen(Konata.Codec.Audio.AudioFormat)">
+            <summary>
+            Get format align
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Konata.Codec.Utils.Sample.ConvertFormat(System.Byte[],Konata.Codec.Audio.AudioFormat,Konata.Codec.Audio.AudioFormat)">
+            <summary>
+            Read sample data
+            </summary>
+            <param name="sample"></param>
+            <param name="inputFormat"></param>
+            <param name="outputFormat"></param>
+            <returns></returns>
+        </member>
+    </members>
+</doc>

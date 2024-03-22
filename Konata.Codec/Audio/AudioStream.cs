@@ -1,33 +1,32 @@
 ﻿using System.IO;
 
-namespace Konata.Codec.Audio
+namespace Konata.Codec.Audio;
+
+/// <summary>
+/// Audio stream
+/// </summary>
+public abstract class AudioStream : MemoryStream
 {
     /// <summary>
-    /// Audio stream
+    /// Set adaptive input
     /// </summary>
-    public abstract class AudioStream : MemoryStream
+    /// <param name="info"></param>
+    /// <returns></returns>
+    internal virtual void SetAdaptiveInput(AudioInfo info)
     {
-        /// <summary>
-        /// Set adaptive input
-        /// </summary>
-        /// <param name="info"></param>
-        /// <returns></returns>
-        internal virtual void SetAdaptiveInput(AudioInfo info)
-        {
-        }
-
-        /// <summary>
-        /// Get adaptive output
-        /// </summary>
-        /// <returns></returns>
-        internal virtual AudioInfo? GetAdaptiveOutput()
-            => null;
-
-        /// <summary>
-        /// Get output audio time
-        /// </summary>
-        /// <returns></returns>
-        internal virtual double GetOutputTime()
-            => 0;
     }
+
+    /// <summary>
+    /// Get adaptive output
+    /// </summary>
+    /// <returns></returns>
+    internal virtual AudioInfo? GetAdaptiveOutput()
+        => null;
+
+    /// <summary>
+    /// Get output audio time
+    /// </summary>
+    /// <returns></returns>
+    internal virtual double GetOutputTime()
+        => 0;
 }
