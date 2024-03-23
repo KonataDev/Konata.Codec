@@ -1,0 +1,43 @@
+name: Publish NuGet Package
+
+on:
+  push:
+    branches: ["main"]
+    tags:
+      - 'v*.*.*'
+
+jobs:
+  Stable-Build:
+    runs-on: ubuntu-latest
+    steps:
+
+    - uses: actions/checkout@v4
+      name: Checkout Files
+
+    - name: Setup .NET Core
+      uses: actions/setup-dotnet@v4
+      with:
+        dotnet-version: '8.0.x'
+
+    - uses: robinraju/release-downloader@v1.9
+      name: Prepare Binaries
+      with:
+        repository: "KonataDev/libSilkCodec"
+        latest: true
+        tarBall: false
+        zipBall: false
+        preRelease: true
+        fileName: "*"
+        out-file-path: "Konata.Codec/bin/runtimes"
+
+    - name: Dotnet Publish
+      run: |
+        cd Konata.Codec
+        dotnet build Konata.Codec.csproj
+        dotnet pack -p:NuspecFile=Konata.Codec.nuspec && ls -al bin/Release
+
+    - uses: actions/upload-artifact@v3
+      name: Upload Artifact
+      with:
+          name: artifact.zip
+          path: Konata.Codec/bin/Release/Konata.Codec*.nupkg

@@ -4,38 +4,22 @@
         <TargetFramework>netstandard2.1</TargetFramework>
         <OutputType>Library</OutputType>
         <LangVersion>latest</LangVersion>
-        <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
-        <Authors>Konata Project</Authors>
-        <Company>Konata Project</Company>
-        <Product>Konata Codec</Product>
-        <Copyright>Konata Project (C) 2024</Copyright>
-        <RepositoryUrl>https://github.com/KonataDev/Konata.Codec</RepositoryUrl>
-        <Description>Audio &amp; Video codec library for Konata.</Description>
-        <PackageVersion>1.3.1</PackageVersion>
         <NeutralLanguage>en-US</NeutralLanguage>
-        <Version>$(PackageVersion)</Version>
-        <PackageLicenseFile>LICENSE</PackageLicenseFile>
         <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     </PropertyGroup>
 
     <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-        <DocumentationFile>.\$(OutDir)\Konata.Codec.xml</DocumentationFile>
+        <DocumentationFile>./bin/Konata.Codec.xml</DocumentationFile>
     </PropertyGroup>
 
     <ItemGroup>
         <PackageReference Include="MP3Sharp" Version="1.0.5"/>
-        <PackageReference Include="NVorbis" Version="0.10.5" />
+        <PackageReference Include="NVorbis" Version="0.10.5"/>
     </ItemGroup>
 
     <ItemGroup>
-        <None Include="..\LICENSE">
-            <Pack>True</Pack>
-            <PackagePath></PackagePath>
-        </None>
-        <None Include="..\README.md">
-            <Pack>True</Pack>
-            <PackagePath></PackagePath>
-        </None>
+        <None Include="..\LICENSE"/>
+        <None Include="..\README.md"/>
     </ItemGroup>
 
     <!-- Get Build Stamp -->
