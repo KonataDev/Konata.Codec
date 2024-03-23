@@ -92,6 +92,9 @@ public static class WavCodec
         }
     }
 
+    /// <summary>
+    /// Wac decoder
+    /// </summary>
     public class Decoder : AudioStream
     {
         private readonly FileStream _stream;

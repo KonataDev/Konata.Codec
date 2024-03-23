@@ -15,6 +15,7 @@
         <NeutralLanguage>en-US</NeutralLanguage>
         <Version>$(PackageVersion)</Version>
         <PackageLicenseFile>LICENSE</PackageLicenseFile>
+        <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     </PropertyGroup>
 
     <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
@@ -23,6 +24,7 @@
 
     <ItemGroup>
         <PackageReference Include="MP3Sharp" Version="1.0.5"/>
+        <PackageReference Include="NVorbis" Version="0.10.5" />
     </ItemGroup>
 
     <ItemGroup>
