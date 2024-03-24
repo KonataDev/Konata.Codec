@@ -97,7 +97,7 @@ public static class WavCodec
     /// </summary>
     public class Decoder : AudioStream
     {
-        private readonly FileStream _stream;
+        private readonly Stream _stream;
         private readonly AudioInfo _output;
 
         /// <summary>
@@ -106,6 +106,15 @@ public static class WavCodec
         public Decoder(string file)
         {
             _stream = File.OpenRead(file);
+            _output = GetProfileAndMove(_stream);
+        }
+        
+        /// <summary>
+        /// Vorbis decoder
+        /// </summary>
+        public Decoder(Stream file)
+        {
+            _stream = file;
             _output = GetProfileAndMove(_stream);
         }
 
