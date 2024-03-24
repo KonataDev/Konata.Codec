@@ -3,11 +3,9 @@ name: Publish NuGet Package
 on:
   push:
     branches: ["main"]
-    tags:
-      - 'v*.*.*'
 
 jobs:
-  Stable-Build:
+  Build-Package:
     runs-on: ubuntu-latest
     steps:
 
@@ -39,5 +37,5 @@ jobs:
     - uses: actions/upload-artifact@v3
       name: Upload Artifact
       with:
-          name: artifact.zip
+          name: nightly
           path: Konata.Codec/bin/Release/Konata.Codec*.nupkg
