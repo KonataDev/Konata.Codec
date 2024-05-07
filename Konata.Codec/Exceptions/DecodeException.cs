@@ -11,6 +11,7 @@ public class DecodeException : Exception
     /// Decode exception
     /// </summary>
     /// <param name="message"></param>
+    /// <param name="inner"></param>
     public DecodeException(string message, Exception inner = null)
         : base(message, inner)
     {
