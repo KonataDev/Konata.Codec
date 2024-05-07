@@ -11,6 +11,9 @@ namespace Konata.Codec.Audio.Codecs;
 /// </summary>
 public class VorbisCodec
 {
+    /// <summary>
+    /// Vorbis decoder
+    /// </summary>
     public class Decoder : AudioStream
     {
         private readonly VorbisReader _stream;

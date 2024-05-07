@@ -124,6 +124,7 @@ public static class WavCodec
         internal override AudioInfo? GetAdaptiveOutput()
             => _output;
 
+        /// <inheritdoc/>
         public override void Flush()
             => _stream.Flush();
 

@@ -11,8 +11,9 @@ public class EncodeException : Exception
     /// Encode exception
     /// </summary>
     /// <param name="message"></param>
-    public EncodeException(string message)
-        : base(message)
+    /// <param name="inner"></param>
+    public EncodeException(string message, Exception inner = null)
+        : base(message, inner)
     {
     }
 }
