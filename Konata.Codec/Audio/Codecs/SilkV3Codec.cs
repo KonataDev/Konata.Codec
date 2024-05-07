@@ -84,9 +84,9 @@ public static class SilkV3Codec
                 }
 
                 // Catch native exceptions
-                catch
+                catch (Exception e)
                 {
-                    throw new EncodeException("Thrown an exception while encoding silk.");
+                    throw new EncodeException("Thrown an exception while encoding silk.", e);
                 }
 
                 // Cleanup
@@ -166,9 +166,9 @@ public static class SilkV3Codec
                 }
 
                 // Catch native exceptions
-                catch
+                catch (Exception e)
                 {
-                    throw new EncodeException("Thrown an exception while decoding silk.");
+                    throw new EncodeException("Thrown an exception while decoding silk.", e);
                 }
 
                 // Cleanup
